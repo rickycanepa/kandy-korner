@@ -4,13 +4,14 @@ import "./Products.css"
 
 export const ProductList = () => {
     const [products, setProducts] = useState([])
+    const [productTypes, setTypes] = useState([])
     const [filteredProducts, setFiltered] = useState([])
     const [highestPrice, setHighest] = useState([false])
     const navigate = useNavigate()
 
     useEffect(
         () => {
-            fetch('http://localhost:8088/products')
+            fetch('http://localhost:8088/products?_expand=productType')
             .then(response => response.json())
             .then((productArray) => {
                 setProducts(productArray)
@@ -47,6 +48,7 @@ export const ProductList = () => {
                     return <section className="product" key={`product--${product.id}`}>
                         <header>{product.productName}</header>
                         <footer>{"$" + product.price}</footer>
+                        <footer>{product.productType.category}</footer>
                     </section>
                 }
             )
